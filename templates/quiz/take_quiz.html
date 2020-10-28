@@ -1,0 +1,78 @@
+{% extends 'basic.html' %} 
+{% block 'body'%}
+<script>
+window.onload = function() {
+    if(!window.location.hash) {
+        window.location = window.location + '#loaded';
+        window.location.reload();
+    }
+}
+const answers_pair={}
+</script>
+
+<script>
+function storeAnswers()
+{
+    var ele = document.getElementsByTagName('input')
+    var ele2 = document.getElementsByTagName('textarea')
+    for(i = 0; i < ele.length; i++) 
+    { 
+        if(ele[i].type="radio") 
+        { 
+            if(ele[i].checked) 
+            {
+                answers_pair[ele[i].id]=ele[i].value[0];
+             
+            }
+        }
+    }
+
+    for(i=0;i<ele2.length;i++)
+    {
+        answers_pair[ele2[i].id]=ele2[i].value;
+    }
+
+    console.log(answers_pair)
+
+    
+    if (confirm("Do you want to submit")) 
+    {
+        $.ajax({
+        "url": '{%url 'quiz:submit_quiz' %}',
+        "type": "post",
+        "data": answers_pair,
+        success: function(response){
+            window.location.href = '{%url 'quiz:submit_quiz' %}';
+        }
+        });
+        
+    }     
+    
+}
+</script>
+{% for question in questions %}
+<div>
+<li>{{question.description}}<br><br>
+{% if question.image %}
+<img src="{{question.image.url}}" style="height: 130px;"><br><br>
+{% endif %}
+<input type="radio" id="+{{question.id}}" name="{{question.id}}" value="1" >{{question.option1}}<br>
+<input type="radio" id="+{{question.id}}" name="{{question.id}}" value="2">{{question.option2}}<br>
+<input type="radio" id="+{{question.id}}" name="{{question.id}}" value="3">{{question.option3}}<br>
+<input type="radio" id="+{{question.id}}" name="{{question.id}}" value="4">{{question.option4}}<br>
+
+</div>
+{% endfor %}
+
+{% for question in open_questions %}
+<div>
+<li>{{question.description}}<br><br>
+{% if question.image %}
+<img src="{{question.image.url}}" style="height: 130px;"><br><br>
+{% endif %}
+<textarea id="-{{question.id}}"></textarea>
+</div>
+{% endfor %}
+<button onclick="storeAnswers()">Submit Quiz</button>
+
+{% endblock %}

@@ -1,0 +1,137 @@
+{% extends 'basic.html' %} 
+
+{% block 'body'%}
+<div>
+<h3>Quiz Details</h3>
+    <b>Title</b>:{{this_quiz.title}}<br>
+    <b>Description</b>:{{this_quiz.description}}<br>
+    <b>Number of Questions</b>:{{this_quiz.number_of_questions}}<br>
+    <b>Start Date</b>:{{this_quiz.start_date}}<br>
+    <b>Start time</b>:{{this_quiz.start_time}}<br>
+    <b>End Date</b>:{{this_quiz.end_date}}<br>
+    <b>End Time</b>:{{this_quiz.end_time}}<br>
+    <b>Duration:</b>{{this_quiz.duration}}<br>
+</div>
+<hr><br>
+<h3>Questions</h3>
+{%for question in all_mcq%}
+<div>
+<li>{{question.description}}<br>
+{% if question.image %}
+<img src="{{question.image.url}}" style="height": 10px>
+{% endif %}
+<input type="radio" id="{{question.id}}" name="{{question.id}}" value="1">{{question.option1}}<br>
+<input type="radio" id="{{question.id}}" name="{{question.id}}" value="2">{{question.option2}}<br>
+<input type="radio" id="{{question.id}}" name="{{question.id}}" value="3">{{question.option3}}<br>
+<input type="radio" id="{{question.id}}" name="{{question.id}}" value="4">{{question.option4}}<br>
+Answer Option: {{question.answer_value}}
+<br><br>
+</div>
+{%endfor%}
+
+{%for question in all_text%}
+<div>
+<li>{{question.description}}<br><br>
+{% if question.image %}
+<img src="{{question.image.url}}" style="height: 130px;"><br><br>
+{% endif %}
+<textarea>{{question.answer_content}}</textarea><br>
+</div>
+{%endfor%}
+<br>
+{% if isUpcoming is True%}
+<hr><br>
+<div>
+Description:<input id="description1" class='new_form'><br>
+Add Image: <input type="file" id="img" name="img" accept="image/*"><br>
+Option1: <input type="text" id="option1" class='new_form'><br><br>
+Option2: <input type="text" id="option2" class='new_form'><br><br>
+Option3: <input type="text" id="option3" class='new_form'><br><br>
+Option4: <input type="text" id="option4" class='new_form'><br><br>
+Answer_option: <input type="text" id="answer_value" class='new_form'><br><br>
+<button onclick="AddQuestion()">Add MCQ Question</button>
+</div>
+
+<hr><br>
+<div>
+Description: <input id="description2" class='new_form2'><br><br>
+Add Image: <input type="file" id="img" name="img" accept="image/*"><br>
+Answer:  <textarea id="answer_content" class='new_form2'></textarea><br><br>
+<button onclick="AddTextQuestion()">Add Text Question</button>
+</div>
+<hr><br>
+{% endif %}
+
+<head><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script></head>
+<script>
+    var data={};
+   function AddQuestion()
+   {
+        var ele = document.getElementsByClassName('new_form')
+        var check=true;
+        var sum=0;
+        data["ismcq"]="1"
+    for(i = 0; i < ele.length; i++) 
+    { 
+        if(ele[i].value=="") 
+        { 
+            sum=sum+1;
+        } 
+        else 
+        {
+            data[ele[i].id]=ele[i].value;
+        }
+    }
+    if(sum!=0) alert("Fill the Form")
+    else 
+    {
+        $.ajax({
+        "url": "{%url 'quiz:showQuizAdmin' this_quiz.id %}",
+        "type": "post",
+        "data": data,
+        success: function(response){
+            window.location.href = "{%url 'quiz:showQuizAdmin' this_quiz.id %}";
+        }
+        });
+        
+    } 
+
+
+   }
+
+   function AddTextQuestion()
+   {
+        var ele = document.getElementsByClassName('new_form2')
+        var check=true;
+        var sum=0;
+        data["ismcq"]="0"
+    for(i = 0; i < ele.length; i++) 
+    { 
+        if(ele[i].value=="") 
+        { 
+            sum=sum+1;
+        } 
+        else 
+        {
+            data[ele[i].id]=ele[i].value;
+        }
+    }
+    console.log(sum)
+    if(sum!=0) alert("Fill the Form")
+    else 
+    {
+        $.ajax({
+        "url": "{%url 'quiz:showQuizAdmin' this_quiz.id %}",
+        "type": "post",
+        "data": data,
+        success: function(response){
+            window.location.href = "{%url 'quiz:showQuizAdmin' this_quiz.id %}";
+        }
+        });
+        
+    } 
+    
+   }
+</script> 
+
+{% endblock %}

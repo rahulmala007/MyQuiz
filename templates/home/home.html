@@ -1,0 +1,42 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<title style="font-family: Arial, Geneva, Arial, Helvetica,  sans-serif;">Welcome!</title>
+<h4 style="font-family: Arial, Geneva, Arial, Helvetica,  sans-serif;position:absolute; left:500px;">Welcome to The Quiz Portal</h4>
+<br>
+</html> 
+
+{% if isAdmin %}
+<div style="position:absolute;top:50px">
+This is Admin Details<br>
+<button type="button" class="logout/"  onclick="window.location.href='{% url "quiz:create_quiz" %}'">Set A Quiz</button><br><br>
+<button type="button" class="logout/"  onclick="window.location.href='{% url "quiz:all_quiz" %}'">See all Quizzes</button><br><br>
+</div>
+
+<br>
+{% endif %}
+
+{% if isUser %}
+<div style="position:absolute;top:50px">
+<h3>User Details:</h3>
+<b>Username</b> : {{user.username}}<br>
+<b>Email</b>: {{user.email}}<br><br>
+<button type="button" class="logout/"  onclick="window.location.href='{% url "quiz:all_quiz" %}'">See All Quizzes</button><br><br>
+
+</div>
+<br>
+
+{% endif %}
+
+
+<div style="position:absolute;right:100px">
+<button type="button" class="logout/"  onclick="window.location.href='/logout'">Logout</button>
+</div>
+
+
+

@@ -1,0 +1,30 @@
+{% extends 'basic.html' %} 
+
+{% block 'body' %}
+
+<div>
+<h3>PAST QUIZZES</h3>
+{% for quiz in past_quizzes %}
+<li>{{quiz.title}} &emsp;  {% if isUser %}<button onclick="location.href ='{% url "quiz:show_quiz" quiz.id %}'">Participate</button>{% endif %}  {% if isAdmin %}<button onclick="location.href ='{% url "quiz:showQuizAdmin" quiz.id %}'">Details</button>{% endif %} </li>
+{% endfor %}
+</div>
+
+<div>
+<h3>LIVE QUIZZES</h3>
+{% for quiz in live_quizzes %}
+<li>{{quiz.title}} &emsp;  {% if isUser %}<button onclick="location.href ='{% url "quiz:show_quiz" quiz.id %}'">Participate Now</button>{% endif %}  {% if isAdmin %}<button onclick="location.href ='{% url "quiz:showQuizAdmin" quiz.id %}'">Details</button>{% endif %}</li>
+{% endfor %}
+</div>
+
+<div>
+<h3>UPCOMING QUIZZES</h3>
+{% for quiz in upcoming_quizzes %}
+<li>{{quiz.title}} &emsp;  {% if isUser %}<button>Reminder</button>{% endif %}  {% if isAdmin %}<button onclick="location.href ='{% url "quiz:showQuizAdmin" quiz.id %}'">Modify</button>{% endif %}</li>
+{% endfor %}
+</div>
+<br>
+
+<button onclick="location.href='{% url "home:dash" %}'">Home</button>
+
+
+{% endblock %}

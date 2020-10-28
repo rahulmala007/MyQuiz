@@ -1,0 +1,21 @@
+{% extends 'basic.html' %} 
+{% block 'body' %}
+<div>
+<h3>Quiz Details</h3>
+    <b>Title</b>:{{this_quiz.title}}<br>
+    <b>Description</b>:{{this_quiz.description}}<br>
+    <b>Number of Questions</b>:{{this_quiz.number_of_questions}}<br>
+    <b>Start Date</b>:{{this_quiz.start_date}}<br>
+    <b>Start time</b>:{{this_quiz.start_time}}<br>
+    <b>End Date</b>:{{this_quiz.end_date}}<br>
+    <b>End Time</b>:{{this_quiz.end_time}}<br>
+    <b>Duration:</b>{{this_quiz.duration}}<br>
+</div>
+
+<button onclick="location.href = '{% url "quiz:take_quiz" quiz_id %}'">Take Quiz</button>  
+
+{% endblock %}
+
+
+
+
